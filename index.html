@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Tarjetas Doman - Método Glenn Doman</title>
+<style>
+  @page { size: landscape; margin: 0; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: Arial, sans-serif; }
+  
+  .card {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    page-break-after: always;
+    background: white;
+  }
+  
+  .card .word {
+    font-size: 180px;
+    font-weight: bold;
+    color: #CC0000;
+    text-transform: uppercase;
+    letter-spacing: 10px;
+  }
+  
+  .card .translation {
+    font-size: 40px;
+    color: #666;
+    margin-top: 30px;
+  }
+
+  .instructions {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    page-break-after: always;
+    background: #FFF5F5;
+    padding: 60px;
+  }
+  
+  .instructions h1 {
+    font-size: 48px;
+    color: #CC0000;
+    margin-bottom: 40px;
+  }
+  
+  .instructions h2 {
+    font-size: 28px;
+    color: #333;
+    margin: 20px 0 10px;
+  }
+  
+  .instructions p, .instructions li {
+    font-size: 22px;
+    color: #444;
+    line-height: 1.6;
+    max-width: 800px;
+  }
+  
+  .instructions ul {
+    text-align: left;
+    max-width: 800px;
+  }
+  
+  .instructions .heart {
+    font-size: 60px;
+    margin: 20px 0;
+  }
+
+  @media print {
+    .card { page-break-after: always; }
+  }
+</style>
+</head>
+<body>
+
+<!-- INSTRUCTIONS PAGE -->
+<div class="instructions">
+  <h1>📚 Método Glenn Doman</h1>
+  <div class="heart">❤️</div>
+  <h2>Tarjetas de Lectura (2-3 años)</h2>
+  <br>
+  <h2>📋 Instrucciones:</h2>
+  <ul>
+    <li>Mostrar <b>5 tarjetas</b> a la vez, máximo <b>1 segundo</b> por tarjeta</li>
+    <li>Repetir <b>3 veces al día</b> (mañana, tarde, noche)</li>
+    <li>Cada semana, agregar 5 palabras nuevas y retirar las más viejas</li>
+    <li>Decir la palabra en voz alta mientras se muestra</li>
+    <li><b>SIEMPRE</b> debe ser divertido — NUNCA forzar</li>
+    <li>Parar <b>ANTES</b> de que se aburra (dejarla con ganas)</li>
+    <li>Sesiones de máximo <b>5-10 minutos</b></li>
+    <li>Celebrar cada logro con abrazos y alegría 🎉</li>
+  </ul>
+  <br>
+  <h2>📅 Plan de 4 Semanas:</h2>
+  <ul>
+    <li><b>Semana 1:</b> Familia — MAMÁ, PAPÁ, EMILY, BEBÉ, AMOR</li>
+    <li><b>Semana 2:</b> Cuerpo — MANO, PIE, OJO, BOCA, NARIZ</li>
+    <li><b>Semana 3:</b> Comida — AGUA, LECHE, PAN, HUEVO, FRUTA</li>
+    <li><b>Semana 4:</b> Mundo — SOL, LUNA, CASA, PERRO, GATO</li>
+  </ul>
+  <br>
+  <p style="text-align:center; font-size:18px; color:#999;">Imprimir en tamaño carta horizontal (landscape) · Letras rojas grandes sobre fondo blanco</p>
+</div>
+
+<!-- SEMANA 1: FAMILIA -->
+<div class="card"><span class="word">MAMÁ</span><span class="translation">Mom</span></div>
+<div class="card"><span class="word">PAPÁ</span><span class="translation">Dad</span></div>
+<div class="card"><span class="word">EMILY</span><span class="translation">Emily</span></div>
+<div class="card"><span class="word">BEBÉ</span><span class="translation">Baby</span></div>
+<div class="card"><span class="word">AMOR</span><span class="translation">Love</span></div>
+
+<!-- SEMANA 2: CUERPO -->
+<div class="card"><span class="word">MANO</span><span class="translation">Hand</span></div>
+<div class="card"><span class="word">PIE</span><span class="translation">Foot</span></div>
+<div class="card"><span class="word">OJO</span><span class="translation">Eye</span></div>
+<div class="card"><span class="word">BOCA</span><span class="translation">Mouth</span></div>
+<div class="card"><span class="word">NARIZ</span><span class="translation">Nose</span></div>
+
+<!-- SEMANA 3: COMIDA -->
+<div class="card"><span class="word">AGUA</span><span class="translation">Water</span></div>
+<div class="card"><span class="word">LECHE</span><span class="translation">Milk</span></div>
+<div class="card"><span class="word">PAN</span><span class="translation">Bread</span></div>
+<div class="card"><span class="word">HUEVO</span><span class="translation">Egg</span></div>
+<div class="card"><span class="word">FRUTA</span><span class="translation">Fruit</span></div>
+
+<!-- SEMANA 4: MUNDO -->
+<div class="card"><span class="word">SOL</span><span class="translation">Sun</span></div>
+<div class="card"><span class="word">LUNA</span><span class="translation">Moon</span></div>
+<div class="card"><span class="word">CASA</span><span class="translation">House</span></div>
+<div class="card"><span class="word">PERRO</span><span class="translation">Dog</span></div>
+<div class="card"><span class="word">GATO</span><span class="translation">Cat</span></div>
+
+</body>
+</html>
