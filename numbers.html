@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Números 🔢</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: Arial, sans-serif; background: #f0f8ff; min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 20px; }
+  .back { position: absolute; top: 20px; left: 20px; font-size: 2em; text-decoration: none; }
+  h1 { font-size: 2.5em; margin: 20px 0; }
+  #objects { font-size: 4em; margin: 20px 0; letter-spacing: 10px; min-height: 80px; }
+  #prompt { font-size: 1.8em; color: #555; margin: 10px 0; }
+  .options { display: grid; grid-template-columns: repeat(5, 1fr); gap: 15px; max-width: 500px; width: 100%; margin-top: 20px; }
+  .num-btn {
+    font-size: 3em; font-weight: bold; padding: 20px; border-radius: 20px;
+    border: 3px solid #ddd; background: white; cursor: pointer; transition: transform 0.2s;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  }
+  .num-btn:active { transform: scale(0.9); }
+  .num-btn.correct { background: #4CAF50; color: white; border-color: #4CAF50; }
+  .num-btn.wrong { background: #ff6b6b; color: white; }
+  #score { font-size: 1.8em; margin-top: 25px; }
+  #celebration { font-size: 4em; margin-top: 10px; min-height: 70px; }
+</style>
+</head>
+<body>
+<a href="index.html" class="back">🏠</a>
+<h1>🔢 Números</h1>
+<div id="objects"></div>
+<div id="prompt">¿Cuántos hay? · How many?</div>
+<div class="options" id="options"></div>
+<div id="score">⭐ 0</div>
+<div id="celebration"></div>
+
+<script>
+const emojis = ['🍎','🌟','🐱','🐶','🦋','🌈','🎈','🐟','🌸','🍊'];
+let score = 0, answer;
+
+function newRound() {
+  answer = Math.floor(Math.random() * 10) + 1;
+  const emoji = emojis[Math.floor(Math.random() * emojis.length)];
+  document.getElementById('objects').textContent = emoji.repeat(answer);
+  document.getElementById('celebration').textContent = '';
+  
+  const opts = document.getElementById('options');
+  opts.innerHTML = '';
+  for (let i = 1; i <= 10; i++) {
+    const btn = document.createElement('button');
+    btn.className = 'num-btn';
+    btn.textContent = i;
+    btn.onclick = () => {
+      if (i === answer) {
+        btn.classList.add('correct');
+        score++;
+        document.getElementById('score').textContent = '⭐ ' + score;
+        document.getElementById('celebration').textContent = ['🎉','🌟','👏','💪','🥳'][Math.floor(Math.random()*5)];
+        setTimeout(newRound, 1200);
+      } else {
+        btn.classList.add('wrong');
+        setTimeout(() => btn.classList.remove('wrong'), 500);
+      }
+    };
+    opts.appendChild(btn);
+  }
+}
+newRound();
+</script>
+</body>
+</html>

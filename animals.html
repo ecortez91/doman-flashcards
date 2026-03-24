@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Animales 🐾</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: Arial, sans-serif; background: #f0fff0; min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 20px; }
+  .back { position: absolute; top: 20px; left: 20px; font-size: 2em; text-decoration: none; }
+  h1 { font-size: 2.5em; margin: 20px 0; }
+  #animal { font-size: 8em; margin: 10px 0; min-height: 130px; }
+  #name { font-size: 2.5em; font-weight: bold; color: #CC0000; margin: 5px 0; }
+  #name-en { font-size: 1.5em; color: #888; margin-bottom: 10px; }
+  #sound { font-size: 1.8em; color: #555; margin: 10px 0; min-height: 40px; }
+  .nav { display: flex; gap: 30px; margin-top: 20px; }
+  .nav-btn {
+    font-size: 3em; padding: 15px 35px; border-radius: 20px; border: none;
+    background: white; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    transition: transform 0.2s;
+  }
+  .nav-btn:active { transform: scale(0.9); }
+  #counter { font-size: 1.3em; color: #888; margin-top: 15px; }
+</style>
+</head>
+<body>
+<a href="index.html" class="back">🏠</a>
+<h1>🐾 Animales</h1>
+<div id="animal"></div>
+<div id="name"></div>
+<div id="name-en"></div>
+<div id="sound"></div>
+<div class="nav">
+  <button class="nav-btn" onclick="prev()">⬅️</button>
+  <button class="nav-btn" onclick="playSound()">🔊</button>
+  <button class="nav-btn" onclick="next()">➡️</button>
+</div>
+<div id="counter"></div>
+
+<script>
+const animals = [
+  { emoji: '🐶', es: 'PERRO', en: 'Dog', sound: '¡Guau guau!' },
+  { emoji: '🐱', es: 'GATO', en: 'Cat', sound: '¡Miau miau!' },
+  { emoji: '🐄', es: 'VACA', en: 'Cow', sound: '¡Muuu!' },
+  { emoji: '🐷', es: 'CERDO', en: 'Pig', sound: '¡Oink oink!' },
+  { emoji: '🐔', es: 'GALLINA', en: 'Chicken', sound: '¡Co co co!' },
+  { emoji: '🐴', es: 'CABALLO', en: 'Horse', sound: '¡Iiiii!' },
+  { emoji: '🐸', es: 'RANA', en: 'Frog', sound: '¡Croac croac!' },
+  { emoji: '🦁', es: 'LEÓN', en: 'Lion', sound: '¡Grrrr!' },
+  { emoji: '🐘', es: 'ELEFANTE', en: 'Elephant', sound: '¡Prrrr!' },
+  { emoji: '🐦', es: 'PÁJARO', en: 'Bird', sound: '¡Pío pío!' },
+  { emoji: '🐒', es: 'MONO', en: 'Monkey', sound: '¡Uh uh ah ah!' },
+  { emoji: '🐟', es: 'PEZ', en: 'Fish', sound: '¡Glub glub!' },
+  { emoji: '🦆', es: 'PATO', en: 'Duck', sound: '¡Cuac cuac!' },
+  { emoji: '🐝', es: 'ABEJA', en: 'Bee', sound: '¡Bzzzz!' },
+  { emoji: '🐍', es: 'SERPIENTE', en: 'Snake', sound: '¡Sssss!' }
+];
+let idx = 0;
+
+function show() {
+  const a = animals[idx];
+  document.getElementById('animal').textContent = a.emoji;
+  document.getElementById('name').textContent = a.es;
+  document.getElementById('name-en').textContent = a.en;
+  document.getElementById('sound').textContent = '';
+  document.getElementById('counter').textContent = (idx+1) + ' / ' + animals.length;
+}
+
+function playSound() {
+  document.getElementById('sound').textContent = animals[idx].sound;
+  if ('speechSynthesis' in window) {
+    const u = new SpeechSynthesisUtterance(animals[idx].sound);
+    u.lang = 'es-ES'; u.rate = 0.8;
+    speechSynthesis.speak(u);
+  }
+}
+
+function next() { idx = (idx + 1) % animals.length; show(); }
+function prev() { idx = (idx - 1 + animals.length) % animals.length; show(); }
+show();
+</script>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Colores 🎨</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: Arial, sans-serif; background: #f0f4f8; min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 20px; }
+  .back { position: absolute; top: 20px; left: 20px; font-size: 2em; text-decoration: none; }
+  h1 { font-size: 2.5em; margin: 20px 0; color: #333; }
+  #prompt { font-size: 2.2em; margin: 20px 0; color: #555; min-height: 60px; }
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; max-width: 500px; width: 100%; }
+  .color-btn {
+    width: 100%; aspect-ratio: 1; border-radius: 24px; border: 4px solid transparent;
+    cursor: pointer; transition: transform 0.2s, border-color 0.3s;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+  }
+  .color-btn:active { transform: scale(0.9); }
+  .color-btn.correct { border-color: gold; animation: pulse 0.5s; }
+  .color-btn.wrong { animation: shake 0.5s; }
+  #score { font-size: 1.8em; margin-top: 25px; color: #333; }
+  #celebration { font-size: 4em; margin-top: 15px; min-height: 70px; }
+  @keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.15); } }
+  @keyframes shake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-10px); } 75% { transform: translateX(10px); } }
+</style>
+</head>
+<body>
+<a href="index.html" class="back">🏠</a>
+<h1>🎨 Colores</h1>
+<div id="prompt"></div>
+<div class="grid" id="grid"></div>
+<div id="score">⭐ 0</div>
+<div id="celebration"></div>
+
+<script>
+const colors = [
+  { name: 'Rojo', en: 'Red', hex: '#FF0000' },
+  { name: 'Azul', en: 'Blue', hex: '#0066FF' },
+  { name: 'Verde', en: 'Green', hex: '#00CC00' },
+  { name: 'Amarillo', en: 'Yellow', hex: '#FFD700' },
+  { name: 'Naranja', en: 'Orange', hex: '#FF8C00' },
+  { name: 'Morado', en: 'Purple', hex: '#8B00FF' },
+  { name: 'Rosa', en: 'Pink', hex: '#FF69B4' },
+  { name: 'Café', en: 'Brown', hex: '#8B4513' },
+  { name: 'Blanco', en: 'White', hex: '#FFFFFF' }
+];
+let score = 0, target;
+
+function shuffle(arr) { return [...arr].sort(() => Math.random() - 0.5); }
+
+function newRound() {
+  const grid = document.getElementById('grid');
+  const shown = shuffle(colors).slice(0, 6);
+  target = shown[Math.floor(Math.random() * shown.length)];
+  document.getElementById('prompt').innerHTML = `¿Dónde está el <b>${target.name}</b>?<br><span style="font-size:0.7em;color:#888">${target.en}</span>`;
+  document.getElementById('celebration').textContent = '';
+  grid.innerHTML = '';
+  shown.forEach(c => {
+    const btn = document.createElement('button');
+    btn.className = 'color-btn';
+    btn.style.background = c.hex;
+    if (c.hex === '#FFFFFF') btn.style.border = '3px solid #ddd';
+    btn.onclick = () => {
+      if (c.name === target.name) {
+        btn.classList.add('correct');
+        score++;
+        document.getElementById('score').textContent = '⭐ ' + score;
+        document.getElementById('celebration').textContent = ['🎉','🌟','👏','💪','🥳'][Math.floor(Math.random()*5)];
+        setTimeout(newRound, 1200);
+      } else {
+        btn.classList.add('wrong');
+        setTimeout(() => btn.classList.remove('wrong'), 500);
+      }
+    };
+    grid.appendChild(btn);
+  });
+}
+newRound();
+</script>
+</body>
+</html>

@@ -2,141 +2,167 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Tarjetas Doman - Método Glenn Doman</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Emily's Learning World 🌈</title>
 <style>
-  @page { size: landscape; margin: 0; }
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { font-family: Arial, sans-serif; }
-  
-  .card {
-    width: 100vw;
-    height: 100vh;
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    page-break-after: always;
-    background: white;
+    padding: 20px;
   }
   
-  .card .word {
-    font-size: 180px;
-    font-weight: bold;
-    color: #CC0000;
-    text-transform: uppercase;
-    letter-spacing: 10px;
+  h1 {
+    color: white;
+    font-size: 3em;
+    text-align: center;
+    margin: 20px 0;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
   }
   
-  .card .translation {
-    font-size: 40px;
-    color: #666;
-    margin-top: 30px;
-  }
-
-  .instructions {
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    page-break-after: always;
-    background: #FFF5F5;
-    padding: 60px;
-  }
-  
-  .instructions h1 {
-    font-size: 48px;
-    color: #CC0000;
+  .subtitle {
+    color: rgba(255,255,255,0.9);
+    font-size: 1.3em;
     margin-bottom: 40px;
   }
   
-  .instructions h2 {
-    font-size: 28px;
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+    max-width: 1200px;
+    width: 100%;
+    padding: 0 20px;
+  }
+  
+  .card {
+    background: white;
+    border-radius: 24px;
+    padding: 35px 25px;
+    text-align: center;
+    text-decoration: none;
     color: #333;
-    margin: 20px 0 10px;
+    transition: transform 0.3s, box-shadow 0.3s;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+    cursor: pointer;
   }
   
-  .instructions p, .instructions li {
-    font-size: 22px;
-    color: #444;
-    line-height: 1.6;
-    max-width: 800px;
+  .card:hover, .card:active {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.2);
   }
   
-  .instructions ul {
-    text-align: left;
-    max-width: 800px;
+  .card .emoji {
+    font-size: 80px;
+    display: block;
+    margin-bottom: 15px;
   }
   
-  .instructions .heart {
-    font-size: 60px;
-    margin: 20px 0;
+  .card .title {
+    font-size: 1.8em;
+    font-weight: bold;
+    margin-bottom: 8px;
   }
-
-  @media print {
-    .card { page-break-after: always; }
+  
+  .card .desc {
+    font-size: 1.1em;
+    color: #666;
+    line-height: 1.4;
+  }
+  
+  .card.coming-soon {
+    opacity: 0.6;
+    pointer-events: none;
+  }
+  
+  .card.coming-soon .title::after {
+    content: " (Próximamente)";
+    font-size: 0.6em;
+    color: #999;
+  }
+  
+  footer {
+    color: rgba(255,255,255,0.7);
+    margin-top: 50px;
+    font-size: 0.9em;
+    text-align: center;
+    padding-bottom: 30px;
+  }
+  
+  @media (max-width: 600px) {
+    h1 { font-size: 2.2em; }
+    .card .emoji { font-size: 60px; }
+    .card .title { font-size: 1.4em; }
+    .grid { grid-template-columns: repeat(2, 1fr); gap: 15px; }
+    .card { padding: 25px 15px; }
   }
 </style>
 </head>
 <body>
 
-<!-- INSTRUCTIONS PAGE -->
-<div class="instructions">
-  <h1>📚 Método Glenn Doman</h1>
-  <div class="heart">❤️</div>
-  <h2>Tarjetas de Lectura (2-3 años)</h2>
-  <br>
-  <h2>📋 Instrucciones:</h2>
-  <ul>
-    <li>Mostrar <b>5 tarjetas</b> a la vez, máximo <b>1 segundo</b> por tarjeta</li>
-    <li>Repetir <b>3 veces al día</b> (mañana, tarde, noche)</li>
-    <li>Cada semana, agregar 5 palabras nuevas y retirar las más viejas</li>
-    <li>Decir la palabra en voz alta mientras se muestra</li>
-    <li><b>SIEMPRE</b> debe ser divertido — NUNCA forzar</li>
-    <li>Parar <b>ANTES</b> de que se aburra (dejarla con ganas)</li>
-    <li>Sesiones de máximo <b>5-10 minutos</b></li>
-    <li>Celebrar cada logro con abrazos y alegría 🎉</li>
-  </ul>
-  <br>
-  <h2>📅 Plan de 4 Semanas:</h2>
-  <ul>
-    <li><b>Semana 1:</b> Familia — MAMÁ, PAPÁ, EMILY, BEBÉ, AMOR</li>
-    <li><b>Semana 2:</b> Cuerpo — MANO, PIE, OJO, BOCA, NARIZ</li>
-    <li><b>Semana 3:</b> Comida — AGUA, LECHE, PAN, HUEVO, FRUTA</li>
-    <li><b>Semana 4:</b> Mundo — SOL, LUNA, CASA, PERRO, GATO</li>
-  </ul>
-  <br>
-  <p style="text-align:center; font-size:18px; color:#999;">Imprimir en tamaño carta horizontal (landscape) · Letras rojas grandes sobre fondo blanco</p>
+<h1>🌈 Emily's Learning World</h1>
+<p class="subtitle">Aprende jugando · Learn by playing</p>
+
+<div class="grid">
+  <a href="flashcards.html" class="card">
+    <span class="emoji">📚</span>
+    <div class="title">Flashcards</div>
+    <div class="desc">Método Doman — Aprende a leer con tarjetas rojas</div>
+  </a>
+  
+  <a href="colors.html" class="card">
+    <span class="emoji">🎨</span>
+    <div class="title">Colores</div>
+    <div class="desc">Toca el color correcto · Touch the right color</div>
+  </a>
+  
+  <a href="numbers.html" class="card">
+    <span class="emoji">🔢</span>
+    <div class="title">Números</div>
+    <div class="desc">Cuenta del 1 al 10 · Count 1 to 10</div>
+  </a>
+  
+  <a href="animals.html" class="card">
+    <span class="emoji">🐾</span>
+    <div class="title">Animales</div>
+    <div class="desc">¿Qué sonido hace? · What sound does it make?</div>
+  </a>
+  
+  <a href="shapes.html" class="card">
+    <span class="emoji">⭐</span>
+    <div class="title">Figuras</div>
+    <div class="desc">Círculo, cuadrado, triángulo · Shapes</div>
+  </a>
+  
+  <a href="letters.html" class="card">
+    <span class="emoji">🔤</span>
+    <div class="title">Abecedario</div>
+    <div class="desc">A-B-C en español e inglés</div>
+  </a>
+  
+  <a href="piano.html" class="card">
+    <span class="emoji">🎹</span>
+    <div class="title">Piano</div>
+    <div class="desc">Toca las teclas · Play the keys</div>
+  </a>
+  
+  <a href="bible.html" class="card">
+    <span class="emoji">📖</span>
+    <div class="title">Biblia</div>
+    <div class="desc">Historias bíblicas para niños · Bible stories</div>
+  </a>
 </div>
 
-<!-- SEMANA 1: FAMILIA -->
-<div class="card"><span class="word">MAMÁ</span><span class="translation">Mom</span></div>
-<div class="card"><span class="word">PAPÁ</span><span class="translation">Dad</span></div>
-<div class="card"><span class="word">EMILY</span><span class="translation">Emily</span></div>
-<div class="card"><span class="word">BEBÉ</span><span class="translation">Baby</span></div>
-<div class="card"><span class="word">AMOR</span><span class="translation">Love</span></div>
-
-<!-- SEMANA 2: CUERPO -->
-<div class="card"><span class="word">MANO</span><span class="translation">Hand</span></div>
-<div class="card"><span class="word">PIE</span><span class="translation">Foot</span></div>
-<div class="card"><span class="word">OJO</span><span class="translation">Eye</span></div>
-<div class="card"><span class="word">BOCA</span><span class="translation">Mouth</span></div>
-<div class="card"><span class="word">NARIZ</span><span class="translation">Nose</span></div>
-
-<!-- SEMANA 3: COMIDA -->
-<div class="card"><span class="word">AGUA</span><span class="translation">Water</span></div>
-<div class="card"><span class="word">LECHE</span><span class="translation">Milk</span></div>
-<div class="card"><span class="word">PAN</span><span class="translation">Bread</span></div>
-<div class="card"><span class="word">HUEVO</span><span class="translation">Egg</span></div>
-<div class="card"><span class="word">FRUTA</span><span class="translation">Fruit</span></div>
-
-<!-- SEMANA 4: MUNDO -->
-<div class="card"><span class="word">SOL</span><span class="translation">Sun</span></div>
-<div class="card"><span class="word">LUNA</span><span class="translation">Moon</span></div>
-<div class="card"><span class="word">CASA</span><span class="translation">House</span></div>
-<div class="card"><span class="word">PERRO</span><span class="translation">Dog</span></div>
-<div class="card"><span class="word">GATO</span><span class="translation">Cat</span></div>
+<footer>
+  Hecho con amor por Papá 🙏 · No ads · No tracking · No brain rot<br>
+  Slow learning · Age appropriate · Bilingual
+</footer>
 
 </body>
 </html>

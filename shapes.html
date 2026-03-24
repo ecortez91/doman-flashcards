@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Figuras ⭐</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: Arial, sans-serif; background: #fff5f5; min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 20px; }
+  .back { position: absolute; top: 20px; left: 20px; font-size: 2em; text-decoration: none; }
+  h1 { font-size: 2.5em; margin: 20px 0; }
+  #shape-display { margin: 20px 0; }
+  #shape-display svg { width: 200px; height: 200px; }
+  #name { font-size: 3em; font-weight: bold; color: #CC0000; }
+  #name-en { font-size: 1.5em; color: #888; margin-bottom: 15px; }
+  .nav { display: flex; gap: 30px; margin-top: 20px; }
+  .nav-btn { font-size: 3em; padding: 15px 35px; border-radius: 20px; border: none; background: white; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+  .nav-btn:active { transform: scale(0.9); }
+  #counter { font-size: 1.3em; color: #888; margin-top: 15px; }
+</style>
+</head>
+<body>
+<a href="index.html" class="back">🏠</a>
+<h1>⭐ Figuras</h1>
+<div id="shape-display"></div>
+<div id="name"></div>
+<div id="name-en"></div>
+<div class="nav">
+  <button class="nav-btn" onclick="prev()">⬅️</button>
+  <button class="nav-btn" onclick="next()">➡️</button>
+</div>
+<div id="counter"></div>
+
+<script>
+const shapes = [
+  { es:'CÍRCULO', en:'Circle', svg:'<circle cx="100" cy="100" r="90" fill="#FF6B6B"/>' },
+  { es:'CUADRADO', en:'Square', svg:'<rect x="10" y="10" width="180" height="180" fill="#4ECDC4"/>' },
+  { es:'TRIÁNGULO', en:'Triangle', svg:'<polygon points="100,10 190,190 10,190" fill="#FFE66D"/>' },
+  { es:'ESTRELLA', en:'Star', svg:'<polygon points="100,10 120,75 190,75 135,115 155,180 100,145 45,180 65,115 10,75 80,75" fill="#FF8C42"/>' },
+  { es:'CORAZÓN', en:'Heart', svg:'<path d="M100,180 C60,140 10,110 10,70 C10,30 50,10 100,50 C150,10 190,30 190,70 C190,110 140,140 100,180Z" fill="#FF4757"/>' },
+  { es:'RECTÁNGULO', en:'Rectangle', svg:'<rect x="10" y="40" width="180" height="120" fill="#7B68EE"/>' },
+  { es:'ÓVALO', en:'Oval', svg:'<ellipse cx="100" cy="100" rx="90" ry="60" fill="#FF69B4"/>' },
+  { es:'DIAMANTE', en:'Diamond', svg:'<polygon points="100,10 190,100 100,190 10,100" fill="#00CED1"/>' }
+];
+let idx = 0;
+
+function show() {
+  const s = shapes[idx];
+  document.getElementById('shape-display').innerHTML = '<svg viewBox="0 0 200 200">' + s.svg + '</svg>';
+  document.getElementById('name').textContent = s.es;
+  document.getElementById('name-en').textContent = s.en;
+  document.getElementById('counter').textContent = (idx+1) + ' / ' + shapes.length;
+}
+function next() { idx = (idx+1) % shapes.length; show(); }
+function prev() { idx = (idx-1+shapes.length) % shapes.length; show(); }
+show();
+</script>
+</body>
+</html>
