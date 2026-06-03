@@ -13,6 +13,7 @@
   #name { font-size: 2.5em; font-weight: bold; color: #CC0000; margin: 5px 0; }
   #name-en { font-size: 1.5em; color: #888; margin-bottom: 10px; }
   #sound { font-size: 1.8em; color: #555; margin: 10px 0; min-height: 40px; }
+  #sound.muted { color: #999; font-size: 1.2em; }
   .nav { display: flex; gap: 30px; margin-top: 20px; }
   .nav-btn {
     font-size: 3em; padding: 15px 35px; border-radius: 20px; border: none;
@@ -39,23 +40,25 @@
 
 <script>
 const animals = [
-  { emoji: '🐶', es: 'PERRO', en: 'Dog', sound: '¡Guau guau!' },
-  { emoji: '🐱', es: 'GATO', en: 'Cat', sound: '¡Miau miau!' },
-  { emoji: '🐄', es: 'VACA', en: 'Cow', sound: '¡Muuu!' },
-  { emoji: '🐷', es: 'CERDO', en: 'Pig', sound: '¡Oink oink!' },
-  { emoji: '🐔', es: 'GALLINA', en: 'Chicken', sound: '¡Co co co!' },
-  { emoji: '🐴', es: 'CABALLO', en: 'Horse', sound: '¡Iiiii!' },
-  { emoji: '🐸', es: 'RANA', en: 'Frog', sound: '¡Croac croac!' },
-  { emoji: '🦁', es: 'LEÓN', en: 'Lion', sound: '¡Grrrr!' },
-  { emoji: '🐘', es: 'ELEFANTE', en: 'Elephant', sound: '¡Prrrr!' },
-  { emoji: '🐦', es: 'PÁJARO', en: 'Bird', sound: '¡Pío pío!' },
-  { emoji: '🐒', es: 'MONO', en: 'Monkey', sound: '¡Uh uh ah ah!' },
-  { emoji: '🐟', es: 'PEZ', en: 'Fish', sound: '¡Glub glub!' },
-  { emoji: '🦆', es: 'PATO', en: 'Duck', sound: '¡Cuac cuac!' },
-  { emoji: '🐝', es: 'ABEJA', en: 'Bee', sound: '¡Bzzzz!' },
-  { emoji: '🐍', es: 'SERPIENTE', en: 'Snake', sound: '¡Sssss!' }
+  { emoji: '🐶', es: 'PERRO', en: 'Dog', label: 'Ladrido real', audio: 'assets/animal-sounds/dog.ogg' },
+  { emoji: '🐱', es: 'GATO', en: 'Cat', label: 'Maullido real', audio: 'assets/animal-sounds/cat.ogg' },
+  { emoji: '🐄', es: 'VACA', en: 'Cow', label: 'Mugido real', audio: 'assets/animal-sounds/cow.ogg' },
+  { emoji: '🐷', es: 'CERDO', en: 'Pig', label: 'Oink real', audio: 'assets/animal-sounds/pig.ogg' },
+  { emoji: '🐔', es: 'GALLINA', en: 'Chicken', label: 'Gallina real', audio: 'assets/animal-sounds/chicken.ogg' },
+  { emoji: '🐴', es: 'CABALLO', en: 'Horse', label: 'Relincho real', audio: 'assets/animal-sounds/horse.ogg' },
+  { emoji: '🐸', es: 'RANA', en: 'Frog', label: 'Rana real', audio: 'assets/animal-sounds/frog.ogg' },
+  { emoji: '🦁', es: 'LEÓN', en: 'Lion', label: 'Rugido real', audio: 'assets/animal-sounds/lion.ogg' },
+  { emoji: '🐘', es: 'ELEFANTE', en: 'Elephant', label: 'Trompeta real', audio: 'assets/animal-sounds/elephant.ogg' },
+  { emoji: '🐦', es: 'PÁJARO', en: 'Bird', label: 'Pájaro real', audio: 'assets/animal-sounds/bird.ogg' },
+  { emoji: '🐒', es: 'MONO', en: 'Monkey', label: 'Mono real', audio: 'assets/animal-sounds/monkey.ogg' },
+  { emoji: '🐟', es: 'PEZ', en: 'Fish', label: 'Los peces casi no hacen sonidos audibles', audio: null },
+  { emoji: '🦆', es: 'PATO', en: 'Duck', label: 'Audio pendiente', audio: null },
+  { emoji: '🐝', es: 'ABEJA', en: 'Bee', label: 'Audio pendiente', audio: null },
+  { emoji: '🐍', es: 'SERPIENTE', en: 'Snake', label: 'Audio pendiente', audio: null }
 ];
 let idx = 0;
+let activeAudio = null;
+let stopTimer = null;
 
 function show() {
   const a = animals[idx];
@@ -63,20 +66,52 @@ function show() {
   document.getElementById('name').textContent = a.es;
   document.getElementById('name-en').textContent = a.en;
   document.getElementById('sound').textContent = '';
+  document.getElementById('sound').className = '';
   document.getElementById('counter').textContent = (idx+1) + ' / ' + animals.length;
 }
 
-function playSound() {
-  document.getElementById('sound').textContent = animals[idx].sound;
-  if ('speechSynthesis' in window) {
-    const u = new SpeechSynthesisUtterance(animals[idx].sound);
-    u.lang = 'es-ES'; u.rate = 0.8;
-    speechSynthesis.speak(u);
+function stopActiveAudio() {
+  if (stopTimer) {
+    clearTimeout(stopTimer);
+    stopTimer = null;
+  }
+
+  if (activeAudio) {
+    activeAudio.pause();
+    activeAudio.currentTime = 0;
+    activeAudio = null;
   }
 }
 
-function next() { idx = (idx + 1) % animals.length; show(); }
-function prev() { idx = (idx - 1 + animals.length) % animals.length; show(); }
+function playSound() {
+  const soundBox = document.getElementById('sound');
+  const animal = animals[idx];
+
+  stopActiveAudio();
+
+  if (!animal.audio) {
+    soundBox.textContent = animal.label;
+    soundBox.className = 'muted';
+    return;
+  }
+
+  soundBox.textContent = '🔊 ' + animal.label;
+  soundBox.className = '';
+
+  activeAudio = new Audio(animal.audio);
+  activeAudio.play().catch(() => {
+    soundBox.textContent = 'No se pudo reproducir este sonido.';
+    soundBox.className = 'muted';
+    activeAudio = null;
+  });
+
+  stopTimer = setTimeout(() => {
+    stopActiveAudio();
+  }, 2500);
+}
+
+function next() { stopActiveAudio(); idx = (idx + 1) % animals.length; show(); }
+function prev() { stopActiveAudio(); idx = (idx - 1 + animals.length) % animals.length; show(); }
 show();
 </script>
 </body>
